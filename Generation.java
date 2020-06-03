@@ -1,6 +1,6 @@
 package life;
 
-public class Generation {
+public class Generation implements IGeneration {
 
     private Grid nextState;
     private Grid current;
@@ -15,19 +15,25 @@ public class Generation {
 
         this.current = grid;
           size = current.getSize();
-        nextState = new Grid(size);
+        nextState = new Grid(size,Init.DEFAULT);// init empty grid
+
+
+        int  countAlive = 0; // count alive when update nextState
 
         for(int row = 0 ; row < size ; row++ ){
             for(int col = 0 ; col < size ; col++ ){
-                int countAlive = neighboor(row,col);
+                int countNeightboors = neighboor(row,col);
                 //all cell nextState already dead
-                if (current.isAlive(row,col) && (countAlive == 2 || countAlive == 3)){
+                if (current.isAlive(row,col) && (countNeightboors == 2 || countNeightboors == 3)){
+                        countAlive++;
                         nextState.setAlive(row,col);
                 }
-                else if (countAlive == 3){
+                else if (countNeightboors == 3){
+                        countAlive++;
                         nextState.setAlive(row,col);
                     }
             }
+            nextState.setCountAlive(countAlive); //
         }
         return nextState;
     }

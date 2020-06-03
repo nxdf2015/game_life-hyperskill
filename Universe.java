@@ -5,22 +5,35 @@ public class Universe {
 
     private final int numberGeneration;
     private Grid grid;
-    public Universe(int size, int seed,int numberGeneration) {
+    private IGeneration generation;
+
+    public Universe(int size, Init init,int numberGeneration) {
         this.numberGeneration = numberGeneration;
-        grid = new Grid(size,seed);
+        this.grid = new Grid(size,init);
     }
+
+    public Universe(int size, int numberGeneration) {
+        this.numberGeneration = numberGeneration;
+        this.grid = new Grid(size,Init.RANDOM);
+
+
+    }
+
+    public void setGeneration(IGeneration generation){
+        this.generation = generation;
+    }
+
 
     public Grid generate(){
 
-        Generation generation = new Generation();
+         if (generation == null)
+             generation = new Generation();
         for(int i = 0 ; i < numberGeneration  ; i++ ){
             grid = generation.next(grid);
+            if (grid.isEmpty()) {
+                break;
+            }
         }
         return grid;
-
     }
-
-
-
-
 }
