@@ -10,18 +10,14 @@ public class Main {
         String[]  line = scanner.nextLine().split(" ");
         int size = Integer.parseInt(line[0]);
         int seed =  Integer.parseInt(line[1]);
+        int numberGeneration = Integer.parseInt(line[2]);
+
         Random random = new  Random(seed);
-        
-        String grid = "";
-        for(int i = 0 ; i < size ; i++ ){
-            for(int j = 0 ; j < size ; j++ ){
-                grid +=  random.nextBoolean() ? "O" : " ";
 
-            }
-            grid += System.lineSeparator();
-        }
+        Universe universe = new Universe(size,seed,numberGeneration);
 
-        System.out.println(grid);
+        Grid grid = universe.generate();
+        grid.show();
 
     }
 }
